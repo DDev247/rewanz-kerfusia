@@ -1,6 +1,5 @@
-# Delta Template Project
-
-This is a basic template project used to create an application that uses the [Delta Studio](https://github.com/ange-yaghi/delta-studio) game engine.
+# Rewanż Kerfusia
+A game about Carrefour's robot named "Kerfuś"
 
 ## Steps to Clone and Build
 
