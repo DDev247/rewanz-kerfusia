@@ -1,4 +1,5 @@
-#include "../include/template_application.h"
+
+#include "../include/rewanz_kerfusia_app.h"
 
 #include <iostream>
 
@@ -7,7 +8,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     (void)lpCmdLine;
     (void)hPrevInstance;
 
-    TemplateApplication app; 
+    RewanzKerfusiaApp app; 
     app.Initialize((void *)&hInstance, ysContextObject::DeviceAPI::DirectX11); 
     app.Run();
     app.Destroy();

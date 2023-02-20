@@ -1,16 +1,20 @@
-#include "../include/template_application.h"
 
-TemplateApplication::TemplateApplication() {
+#include "../include/rewanz_kerfusia_app.h"
+
+RewanzKerfusiaApp *RewanzKerfusiaApp::instance = nullptr;
+
+RewanzKerfusiaApp::RewanzKerfusiaApp() {
     m_demoTexture = nullptr;
     m_currentRotation = 0.0f;
     m_temperature = 0.0f;
+    RewanzKerfusiaApp::instance = this;
 }
 
-TemplateApplication::~TemplateApplication() {
+RewanzKerfusiaApp::~RewanzKerfusiaApp() {
     /* void */
 }
 
-void TemplateApplication::Initialize(void *instance, ysContextObject::DeviceAPI api) {
+void RewanzKerfusiaApp::Initialize(void *instance, ysContextObject::DeviceAPI api) {
     dbasic::Path modulePath = dbasic::GetModulePath();
     dbasic::Path confPath = modulePath.Append("delta.conf");
 
@@ -36,7 +40,7 @@ void TemplateApplication::Initialize(void *instance, ysContextObject::DeviceAPI 
     settings.DepthBuffer = true;
     settings.Instance = instance;
     settings.ShaderDirectory = shaderPath.c_str();
-    settings.WindowTitle = "Delta Template Application";
+    settings.WindowTitle = "Rewan¿ Kerfusia";
     settings.WindowPositionX = 0;
     settings.WindowPositionY = 0;
     settings.WindowStyle = ysWindow::WindowStyle::Windowed;
@@ -55,13 +59,18 @@ void TemplateApplication::Initialize(void *instance, ysContextObject::DeviceAPI 
     m_assetManager.LoadTexture((assetPath + "/chicken.png").c_str(), "Chicken");
     m_demoTexture = m_assetManager.GetTexture("Chicken")->GetTexture();
 
-    m_assetManager.CompileInterchangeFile((assetPath + "/icosphere").c_str(), 1.0f, true);
-    m_assetManager.LoadSceneFile((assetPath + "/icosphere").c_str(), true);
+    // m_assetManager.CompileInterchangeFile((assetPath + "/icosphere").c_str(), 1.0f, true);
+    m_assetManager.CompileInterchangeFile((assetPath + "/models/main").c_str(), 1.0f, true);
+    m_assetManager.LoadSceneFile((assetPath + "/models/main").c_str(), true);
+
+    m_kerfus0.Initialize("Kerfus-Body");
+    m_kerfus1.Initialize("Kerfus-Bottom");
+    m_kerfus2.Initialize("Kerfus-Screen");
 
     m_shaders.SetCameraMode(dbasic::DefaultShaders::CameraMode::Target);
 }
 
-void TemplateApplication::Process() {
+void RewanzKerfusiaApp::Process() {
     if (m_engine.IsKeyDown(ysKey::Code::Space)) {
         m_currentRotation += m_engine.GetFrameLength();
     }
@@ -77,7 +86,7 @@ void TemplateApplication::Process() {
     if (m_temperature > 1.0f) m_temperature = 1.0f;
 }
 
-void TemplateApplication::Render() {
+void RewanzKerfusiaApp::Render() {
     const int screenWidth = m_engine.GetGameWindow()->GetGameWidth();
     const int screenHeight = m_engine.GetGameWindow()->GetGameHeight();
 
@@ -90,7 +99,11 @@ void TemplateApplication::Render() {
     m_shaders.ResetLights();
     m_shaders.SetAmbientLight(ysMath::GetVector4(ysColor::srgbiToLinear(0x34, 0x98, 0xdb)));
 
-    dbasic::Light light;
+    m_kerfus0.Run();
+    m_kerfus1.Run();
+    m_kerfus2.Run();
+
+    /*dbasic::Light light;
     light.Active = 1;
     light.Attenuation0 = 0.0f;
     light.Attenuation1 = 0.0f;
@@ -144,10 +157,10 @@ void TemplateApplication::Render() {
     m_shaders.SetBaseColor(ysColor::srgbiToLinear(0xbd, 0xc3, 0xc7));
     m_shaders.SetObjectTransform(ysMath::MatMult(ysMath::TranslationTransform(ysMath::LoadVector(0.0f, 0.0f, 0.0f)), rotationTurntable));
     m_shaders.SetObjectTransform(ysMath::MatMult(ysMath::TranslationTransform(ysMath::LoadVector(0.0f, 0.0f, -1.0f)), rotationTurntable));
-    m_engine.DrawModel(m_shaders.GetRegularFlags(), m_assetManager.GetModelAsset("Floor"));
+    m_engine.DrawModel(m_shaders.GetRegularFlags(), m_assetManager.GetModelAsset("Floor"));*/
 }
 
-void TemplateApplication::Run() {
+void RewanzKerfusiaApp::Run() {
     while (m_engine.IsOpen()) {
         m_engine.StartFrame();
 
@@ -158,7 +171,7 @@ void TemplateApplication::Run() {
     }
 }
 
-void TemplateApplication::Destroy() {
+void RewanzKerfusiaApp::Destroy() {
     m_shaderSet.Destroy();
 
     m_assetManager.Destroy();

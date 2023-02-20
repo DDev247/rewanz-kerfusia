@@ -4,24 +4,24 @@ cmake_minimum_required(VERSION 3.10)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 
-project(delta-template)
+project(rewanz-kerfusia)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(delta-template WIN32
+add_executable(rewanz-kerfusia WIN32
     # Source files
     src/main.cpp
-    src/template_application.cpp
+    src/rewanz_kerfusia_app.cpp
 
     # Include files
     include/delta.h
-    include/template_application.h
-)
+    include/rewanz_kerfusia_app.h
+ "src/gameobject.cpp" "include/gameobject.h")
 
-target_link_libraries(delta-template
+target_link_libraries(rewanz-kerfusia
     delta-basic)
 
-target_include_directories(delta-template
+target_include_directories(rewanz-kerfusia
     PUBLIC dependencies/submodules)
 
 add_subdirectory(dependencies)
